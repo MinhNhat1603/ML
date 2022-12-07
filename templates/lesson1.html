@@ -38,7 +38,12 @@
     <div class="row justify-content-center">
       <div class="col-xl-7 col-lg-9 text-center">
         <h1>LESSON 1</h1>
-        <h2>Website for analyzing using Machine Learning</h2>
+        <b>Support Vector Machine</b>
+        <h2>SVM là một thuật toán giám sát, nó có thể sử dụng cho cả việc phân loại hoặc đệ quy. Tuy nhiên nó được sử
+          dụng chủ yếu cho việc phân loại. Trong thuật toán này, chúng ta vẽ đồi thị dữ liệu là các điểm trong n chiều (
+          ở đây n là số lượng các tính năng bạn có) với giá trị của mỗi tính năng sẽ là một phần liên kết. Sau đó chúng
+          ta thực hiện tìm "đường bay" (hyper-plane) phân chia các lớp. Hyper-plane nó chỉ hiểu đơn giản là 1 đường
+          thẳng có thể phân chia các lớp ra thành hai phần riêng biệt.</h2>
       </div>
     </div>
     <div class="text-center">
@@ -48,35 +53,40 @@
 </section>
 <main id="main" class='d-flex px-md-5'>
   <div class='w-50'>
-    <form action='/lesson-1' method='get'>
+    <form action='/lesson-1#main' method='GET'>
       <div class="row">
         <div class="col">
-          <label for="center1X">Center 1 - X</label>
-          <input type="number" required class="form-control" value={{ center1X if showImg else 0 }} name='center1X' id="center1X"
+          <label for="center1_x">Center 1 - X</label>
+          <input type="number" required class="form-control"
+                 value={{ center1_x if is_show_image else 0 }} name='center1_x' id="center1_x"
                  placeholder="Center 1 - X">
         </div>
         <div class="col">
-          <label for="center1Y">Center 1 - Y</label>
-          <input type="number" required class="form-control" value={{ center1Y if showImg else 0 }} name='center1Y' id="center1Y"
+          <label for="center1_y">Center 1 - Y</label>
+          <input type="number" required class="form-control"
+                 value={{ center1_y if is_show_image else 0 }} name='center1_y' id="center1_y"
                  placeholder="Center 1 - Y">
         </div>
       </div>
       <div class="row">
         <div class="col">
-          <label for="center2X">Center 1 - X</label>
-          <input type="number" required class="form-control" value={{ center2X if showImg else 0 }} name='center2X' id="center2X"
+          <label for="center2_x">Center 2 - X</label>
+          <input type="number" required class="form-control"
+                 value={{ center2_x if is_show_image else 0 }} name='center2_x' id="center2_x"
                  placeholder="Center 2 - X">
         </div>
         <div class="col">
-          <label for="center2Y">Password</label>
-          <input type="number" required class="form-control" value={{ center2Y if showImg else 0 }} name='center2Y' id="center2Y"
+          <label for="center2_y">Center 2 - X</label>
+          <input type="number" required class="form-control"
+                 value={{ center2_y if is_show_image else 0 }} name='center2_y' id="center2_y"
                  placeholder="Center 2 - Y">
         </div>
       </div>
       <div class="row">
         <div class='col'>
-          <label for="number">N</label>
-          <input type="number" required class="form-control" value={{ number if showImg else 0 }} name='number' id="number"
+          <label for="number">Number (must be greater than 0)</label>
+          <input type="number" required class="form-control"
+                 value={{ number if is_show_image else 0 }} name='number' id="number"
                  placeholder="number">
         </div>
       </div>
@@ -84,7 +94,7 @@
     </form>
   </div>
   <div class='w-50'>
-    {% if showImg %}
+    {% if is_show_image %}
       <img src='/static/images/lesson1.png' alt='lesson 1'/>
     {% endif %}
   </div>

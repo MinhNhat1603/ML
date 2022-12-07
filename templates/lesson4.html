@@ -37,8 +37,14 @@
   <div class="container position-relative" data-aos="fade-up" data-aos-delay="100">
     <div class="row justify-content-center">
       <div class="col-xl-7 col-lg-9 text-center">
-        <h1>LESSON 3</h1>
-        <h2>Website for analyzing using Machine Learning</h2>
+        <h1>LESSON 1</h1>
+        <b>Hồi quy đa thức bậc 16</b>
+        <h2>Có một số mối quan hệ mà một nhà nghiên cứu sẽ giả thuyết là đường cong. Rõ ràng, loại trường hợp như vậy sẽ
+          bao gồm một số hạng đa thức. Kiểm tra lượng dư. Nếu chúng ta cố gắng điều chỉnh một mô hình tuyến tính cho phù
+          hợp với dữ liệu cong, thì một biểu đồ phân tán của phần dư (trục Y) trên bộ dự đoán (trục X) sẽ có các bản vá
+          của nhiều phần dư dương ở giữa. Do đó trong tình huống như vậy là không thích hợp. Một giả định trong phân
+          tích hồi quy tuyến tính bội thông thường là tất cả các biến độc lập là độc lập. Trong mô hình hồi quy đa thức,
+          giả thiết này không được thỏa mãn.</h2>
       </div>
     </div>
     <div class="text-center">
@@ -48,44 +54,27 @@
 </section>
 <main id="main" class='d-flex px-md-5'>
   <div class='w-50'>
-    <form action='/lesson-1' method='get'>
+    <form action='/lesson-4#main' method='GET'>
       <div class="row">
         <div class="col">
-          <label for="center1X">Center 1 - X</label>
-          <input type="number" required class="form-control" value={{ center1X if showImg else 0 }} name='center1X' id="center1X"
-                 placeholder="Center 1 - X">
+          <label for="number">Number (must be greater than 0)</label>
+          <input type="number" required class="form-control"
+                 value={{ number if is_show_image else 0 }} name='number' id="number"
+                 placeholder="Number">
         </div>
         <div class="col">
-          <label for="center1Y">Center 1 - Y</label>
-          <input type="number" required class="form-control" value={{ center1Y if showImg else 0 }} name='center1Y' id="center1Y"
-                 placeholder="Center 1 - Y">
-        </div>
-      </div>
-      <div class="row">
-        <div class="col">
-          <label for="center2X">Center 1 - X</label>
-          <input type="number" required class="form-control" value={{ center2X if showImg else 0 }} name='center2X' id="center2X"
-                 placeholder="Center 2 - X">
-        </div>
-        <div class="col">
-          <label for="center2Y">Password</label>
-          <input type="number" required class="form-control" value={{ center2Y if showImg else 0 }} name='center2Y' id="center2Y"
-                 placeholder="Center 2 - Y">
-        </div>
-      </div>
-      <div class="row">
-        <div class='col'>
-          <label for="number">N</label>
-          <input type="number" required class="form-control" value={{ number if showImg else 0 }} name='number' id="number"
-                 placeholder="number">
+          <label for="number_test">Number test (must be greater than 0)</label>
+          <input type="number" required class="form-control"
+                 value={{ number_test if is_show_image else 0 }} name='number_test' id="number_test"
+                 placeholder="Number test">
         </div>
       </div>
       <button type="submit" class="btn btn-primary mt-3">Render</button>
     </form>
   </div>
   <div class='w-50'>
-    {% if showImg %}
-      <img src='/static/images/lesson3.png' alt='lesson 3'/>
+    {% if is_show_image %}
+      <img src='/static/images/lesson4.png' alt='lesson 4'/>
     {% endif %}
   </div>
 </main>

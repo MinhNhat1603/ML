@@ -38,7 +38,12 @@
     <div class="row justify-content-center">
       <div class="col-xl-7 col-lg-9 text-center">
         <h1>LESSON 3</h1>
-        <h2>Website for analyzing using Machine Learning</h2>
+        <b>Giảm dần đạo hàm (Gradient Descent)</b>
+        <h2>Trong Machine Learning nói riêng và Toán Tối Ưu nói chung, chúng ta thường xuyên phải tìm giá trị nhỏ nhất
+          (hoặc đôi khi là lớn nhất) của một hàm số nào đó. Ví dụ như các hàm mất mát trong hai bài Linear Regression và
+          K-means Clustering. Nhìn chung, việc tìm global minimum của các hàm mất mát trong Machine Learning là rất phức
+          tạp, thậm chí là bất khả thi. Thay vào đó, người ta thường cố gắng tìm các điểm local minimum, và ở một mức độ
+          nào đó, coi đó là nghiệm cần tìm của bài toán.</h2>
       </div>
     </div>
     <div class="text-center">
@@ -48,35 +53,18 @@
 </section>
 <main id="main" class='d-flex px-md-5'>
   <div class='w-50'>
-    <form action='/lesson-1' method='get'>
+    <form action='/lesson-3#main' method='GET'>
       <div class="row">
         <div class="col">
-          <label for="center1X">Center 1 - X</label>
-          <input type="number" required class="form-control" value={{ center1X if showImg else 0 }} name='center1X' id="center1X"
-                 placeholder="Center 1 - X">
+          <label for="x0">x0 (must be greater than 0)</label>
+          <input type="number" required class="form-control"
+                 value={{ x0 if is_show_image else 0 }} name='x0' id="x0"
+                 placeholder="X0">
         </div>
         <div class="col">
-          <label for="center1Y">Center 1 - Y</label>
-          <input type="number" required class="form-control" value={{ center1Y if showImg else 0 }} name='center1Y' id="center1Y"
-                 placeholder="Center 1 - Y">
-        </div>
-      </div>
-      <div class="row">
-        <div class="col">
-          <label for="center2X">Center 1 - X</label>
-          <input type="number" required class="form-control" value={{ center2X if showImg else 0 }} name='center2X' id="center2X"
-                 placeholder="Center 2 - X">
-        </div>
-        <div class="col">
-          <label for="center2Y">Password</label>
-          <input type="number" required class="form-control" value={{ center2Y if showImg else 0 }} name='center2Y' id="center2Y"
-                 placeholder="Center 2 - Y">
-        </div>
-      </div>
-      <div class="row">
-        <div class='col'>
-          <label for="number">N</label>
-          <input type="number" required class="form-control" value={{ number if showImg else 0 }} name='number' id="number"
+          <label for="number">Number (must be greater than 0)</label>
+          <input type="number" required class="form-control"
+                 value={{ number if is_show_image else 0 }} name='number' id="number"
                  placeholder="number">
         </div>
       </div>
@@ -84,7 +72,7 @@
     </form>
   </div>
   <div class='w-50'>
-    {% if showImg %}
+    {% if is_show_image %}
       <img src='/static/images/lesson3.png' alt='lesson 3'/>
     {% endif %}
   </div>
