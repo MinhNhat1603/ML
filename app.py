@@ -12,9 +12,15 @@ from sklearn.inspection import DecisionBoundaryDisplay
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import PolynomialFeatures
 from sklearn.svm import LinearSVC
+from sklearn.neighbors import KNeighborsClassifier
 
 app = Flask(__name__)
 static_path = r'D:\workspace\project\ML\static\images'
+
+
+def rm_tree():
+    shutil.rmtree(static_path)
+    os.mkdir(static_path)
 
 
 @app.route('/')
@@ -160,7 +166,7 @@ def lesson3():
     number = request.args.get('number')
     if (x0 is None) \
             or (int(x0) <= 0) \
-            or (number is None)\
+            or (number is None) \
             or (int(number) <= 0):
         return render_template('lesson3.html', is_show_image=False)
     x0 = int(x0)
@@ -331,6 +337,168 @@ def lesson8():
                            is_show_image=True,
                            number=number)
 
+@app.route('/lesson-5')
+def lesson5():
+    rm_tree()
+    number = request.args.get('number')
+    center1_x = request.args.get('center1_x')
+    center1_y = request.args.get('center1_y')
+    center2_x = request.args.get('center2_x')
+    center2_y = request.args.get('center2_y')
+    center3_x = request.args.get('center3_x')
+    center3_y = request.args.get('center3_y')
+    if (number is None) \
+            or (int(number) <= 0) \
+            or (center1_x is None) \
+            or (center1_y is None) \
+            or (center2_x is None) \
+            or (center2_y is None) \
+            or (center3_x is None) \
+            or (center3_y is None):
+        return render_template('lesson5.html', is_show_image=False)
+    number = int(number)
+    center1_x = int(center1_x)
+    center1_y = int(center1_y)
+    center2_x = int(center2_x)
+    center2_y = int(center2_y)
+    center3_x = int(center3_x)
+    center3_y = int(center3_y)
+    np.random.seed(100)
+    centers = [[center1_x, center1_y], [center2_x, center2_y], [center3_x, center3_y]]
+    data, labels = make_blobs(n_samples=number,
+                              centers=np.array(centers),
+                              random_state=1)
+    group0 = []
+    group1 = []
+    group2 = []
+    for i in range(0, number):
+        if labels[i] == 0:
+            group0.append([data[i, 0], data[i, 1]])
+        elif labels[i] == 1:
+            group1.append([data[i, 0], data[i, 1]])
+        else:
+            group2.append([data[i, 0], data[i, 1]])
+
+    group0 = np.array(group0)
+    group1 = np.array(group1)
+    group2 = np.array(group2)
+
+    pyplot.plot(group0[:, 0], group0[:, 1], 'og', markersize=2)
+    pyplot.plot(group1[:, 0], group1[:, 1], 'or', markersize=2)
+    pyplot.plot(group2[:, 0], group2[:, 1], 'ob', markersize=2)
+    pyplot.legend(['Group 0', 'Group 1', 'Group 2'])
+    pyplot.savefig(static_path + r'\lesson5.png')
+    pyplot.clf()
+    return render_template('lesson5.html',
+                           is_show_image=True,
+                           center1_x=center1_x,
+                           center1_y=center1_y,
+                           center2_x=center2_x,
+                           center2_y=center2_y,
+                           center3_x=center2_x,
+                           center3_y=center2_y,
+                           number=number)
+
+
+@app.route('/lesson-6')
+def lesson6():
+    rm_tree()
+    center1_x = request.args.get('center1_x')
+    center1_y = request.args.get('center1_y')
+    center1_z = request.args.get('center1_z')
+    center2_x = request.args.get('center2_x')
+    center2_y = request.args.get('center2_y')
+    center2_z = request.args.get('center2_z')
+
+    if (center1_x is None) \
+            or (center1_y is None) \
+            or (center1_z is None) \
+            or (center2_x is None) \
+            or (center2_y is None) \
+            or (center2_z is None):
+        return render_template('lesson6.html', is_show_image=False)
+    center1_x = int(center1_x)
+    center1_y = int(center1_y)
+    center1_z = int(center1_z)
+    center2_x = int(center2_x)
+    center2_y = int(center2_y)
+    center2_z = int(center2_z)
+
+    x = np.linspace(center1_x, center1_y, center1_z)
+    y = np.linspace(center2_x, center2_y, center2_z)
+    X, Y = np.meshgrid(x, y)
+    Z = X ** 2 + Y ** 2
+    pyplot.contour(X, Y, Z, 10)
+    pyplot.savefig(static_path + r'\lesson6.png')
+    pyplot.clf()
+    return render_template('lesson6.html',
+                           is_show_image=True,
+                           center1_x=center1_x,
+                           center1_y=center1_y,
+                           center1_z=center1_z,
+                           center2_x=center2_x,
+                           center2_y=center2_y,
+                           center2_z=center2_z)
+
+
+@app.route('/lesson-7')
+def lesson7():
+    rm_tree()
+    n_sample = request.args.get('n_sample')
+    centers = request.args.get('centers')
+    if (n_sample is None) \
+            or (int(n_sample) <= 0) \
+            or (centers is None) \
+            or (int(centers) <= 0):
+        return render_template('lesson7.html', is_show_image=False)
+    n_sample = int(n_sample)
+    centers = int(centers)
+
+    X, y = make_blobs(n_samples=n_sample, centers=centers, random_state=0)
+    pyplot.figure(figsize=(10, 5))
+    # "hinge" is the standard SVM loss
+    clf = LinearSVC(C=100, loss="hinge", random_state=42).fit(X, y)
+    # obtain the support vectors through the decision function
+    decision_function = clf.decision_function(X)
+    # we can also calculate the decision function manually
+    # decision_function = np.dot(X, clf.coef_[0]) + clf.intercept_[0]
+    # The support vectors are the samples that lie within the margin
+    # boundaries, whose size is conventionally constrained to 1
+    support_vector_indices = np.where(np.abs(decision_function) <= 1 + 1e-15)[0]
+    support_vectors = X[support_vector_indices]
+
+    pyplot.scatter(X[:, 0], X[:, 1], c=y, s=30, cmap=pyplot.cm.Paired)
+    ax = pyplot.gca()
+    DecisionBoundaryDisplay.from_estimator(
+        clf,
+        X,
+        ax=ax,
+        grid_resolution=50,
+        plot_method="contour",
+        colors="k",
+        levels=[-1, 0, 1],
+        alpha=0.5,
+        linestyles=["--", "-", "--"],
+    )
+    pyplot.scatter(
+        support_vectors[:, 0],
+        support_vectors[:, 1],
+        s=100,
+        linewidth=1,
+        facecolors="none",
+        edgecolors="k",
+    )
+    pyplot.title("C = 100")
+
+    pyplot.tight_layout()
+    pyplot.savefig(static_path + r'\lesson7.png')
+    pyplot.clf()
+    return render_template('lesson7.html',
+                           is_show_image=True,
+                           n_sample=n_sample,
+                           centers=centers)
+
+
 @app.route('/lesson-9')
 def lesson9():
     rm_tree()
@@ -346,7 +514,7 @@ def lesson9():
     poly_features = PolynomialFeatures(degree=8, include_bias=True)
     X_poly = poly_features.fit_transform(X)
 
-    N_test = 20 
+    N_test = 20
 
     X_test = (np.random.rand(N_test,1) - 1/8) *10
     y_test = 3*(X_test -2) * (X_test - 3)*(X_test-4) +  10*np.random.randn(N_test, 1)
@@ -415,7 +583,7 @@ def lesson10():
     x_1 = int(x_1)
     x_2 = int(x_2)
     y_1 = x_1**2 + 10*np.sin(x_1)
-    
+
     m = 2*x_1 + 10*np.cos(x_1)
     dx = 1
     dy = m*dx
@@ -429,7 +597,7 @@ def lesson10():
     pyplot.plot(x_1 + 0.5, y_1, 'ro', markersize = 20)
 
     y_2 = x_2**2 + 10*np.sin(x_2)
-    
+
     m = 2*x_2 + 10*np.cos(x_2)
     dx = -1
     dy = m*dx
@@ -444,7 +612,7 @@ def lesson10():
     pyplot.fill_between(x, y, -10)
 
     pyplot.axis([-6, 6, -10, 40])
-    
+
 
     pyplot.savefig(static_path + r'\lesson10.png')
     pyplot.clf()
@@ -453,11 +621,6 @@ def lesson10():
                            x_1 = x_1,
                            x_2 = x_2,
                            number=number)
-
-
-def rm_tree():
-    shutil.rmtree(static_path)
-    os.mkdir(static_path)
 
 
 if __name__ == '__main__':
