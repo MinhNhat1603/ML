@@ -37,8 +37,10 @@
   <div class="container position-relative" data-aos="fade-up" data-aos-delay="100">
     <div class="row justify-content-center">
       <div class="col-xl-7 col-lg-9 text-center">
-        <h1>LESSON 1</h1>
-        <h2>Website for analyzing using Machine Learning</h2>
+        <h1>LESSON 10</h1>
+        <h2>Đạo hàm của một hàm số là một đại lượng mô tả sự biến thiên của hàm tại một điểm nào đó. 
+          Đạo hàm là một khái niệm cơ bản trong giải tích. Chẳng hạn, trong vật lý, 
+          đạo hàm biểu diễn vận tốc tức thời của một điểm chuyển động hoặc cường độ dòng điện tức thời tại một điểm trên dây dẫn.</h2>
       </div>
     </div>
     <div class="text-center">
@@ -48,41 +50,27 @@
 </section>
 <main id="main" class='d-flex px-md-5'>
   <div class='w-50'>
-    <form action='/lesson-1' method='GET'>
+    <form action='/lesson-10' method='GET'>
       <div class="row">
         <div class="col">
-          <label for="center1_x">Center 1 - X</label>
+          <label for="x_1">X_1</label>
           <input type="number" required class="form-control"
-                 value={{ center1_x if is_show_image else 0 }} name='center1_x' id="center1_x"
-                 placeholder="Center 1 - X">
+                 value={{ X_1 if is_show_image else 0 }} name='x_1' id="x_1"
+                 placeholder="X_1">
         </div>
         <div class="col">
-          <label for="center1_y">Center 1 - Y</label>
+          <label for="x_2">X_2</label>
           <input type="number" required class="form-control"
-                 value={{ center1_y if is_show_image else 0 }} name='center1_y' id="center1_y"
-                 placeholder="Center 1 - Y">
-        </div>
-      </div>
-      <div class="row">
-        <div class="col">
-          <label for="center2_x">Center 2 - X</label>
-          <input type="number" required class="form-control"
-                 value={{ center2_x if is_show_image else 0 }} name='center2_x' id="center2_x"
-                 placeholder="Center 2 - X">
-        </div>
-        <div class="col">
-          <label for="center2_y">Center 2 - X</label>
-          <input type="number" required class="form-control"
-                 value={{ center2_y if is_show_image else 0 }} name='center2_y' id="center2_y"
-                 placeholder="Center 2 - Y">
+                 value={{ X_2 if is_show_image else 0 }} name='x_2' id="x_2"
+                 placeholder="X_2">
         </div>
       </div>
       <div class="row">
         <div class='col'>
-          <label for="number">Number</label>
+          <label for="number">He_So</label>
           <input type="number" required class="form-control"
-                 value={{ number if is_show_image else 0 }} name='number' id="number"
-                 placeholder="number">
+                 value={{ He_So if is_show_image else 0 }} name='number' id="number"
+                 placeholder="He_So">
         </div>
       </div>
       <button type="submit" class="btn btn-primary mt-3">Render</button>
@@ -90,7 +78,7 @@
   </div>
   <div class='w-50'>
     {% if is_show_image %}
-      <img src='/static/images/lesson1.png' alt='lesson 1'/>
+      <img src='/static/images/lesson10.png' alt='lesson 10'/>
     {% endif %}
   </div>
 </main>
