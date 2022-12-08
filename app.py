@@ -9,6 +9,7 @@ from flask import request
 from sklearn import linear_model
 from sklearn.datasets import make_blobs
 from sklearn.inspection import DecisionBoundaryDisplay
+from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import PolynomialFeatures
 from sklearn.svm import LinearSVC
@@ -298,17 +299,18 @@ def lesson4():
                            number=number,
                            number_test=number_test)
 
+
 @app.route('/lesson-8')
 def lesson8():
     rm_tree()
     number = request.args.get('number')
     if (number is None) \
-            or (int(number) <= 0) :
+            or (int(number) <= 0):
         return render_template('lesson8.html', is_show_image=False)
     m = int(number)
     X = 6 * np.random.rand(m, 1) - 3
-    y = 0.5 * X**2 + X + 2 + np.random.randn(m, 1)
-    X2 = X**2
+    y = 0.5 * X ** 2 + X + 2 + np.random.randn(m, 1)
+    X2 = X ** 2
     # print(X)
     # print(X2)
     X_poly = np.hstack((X, X2))
@@ -319,14 +321,14 @@ def lesson8():
     print(lin_reg.intercept_)
     print(lin_reg.coef_)
     a = lin_reg.intercept_[0]
-    b = lin_reg.coef_[0,0]
-    c = lin_reg.coef_[0,1]
+    b = lin_reg.coef_[0, 0]
+    c = lin_reg.coef_[0, 1]
     print(a)
     print(b)
     print(c)
 
-    x_ve = np.linspace(-3,3,m)
-    y_ve = a + b*x_ve + c*x_ve**2
+    x_ve = np.linspace(-3, 3, m)
+    y_ve = a + b * x_ve + c * x_ve ** 2
 
     pyplot.plot(X, y, 'o')
     pyplot.plot(x_ve, y_ve, 'r')
@@ -336,6 +338,7 @@ def lesson8():
     return render_template('lesson8.html',
                            is_show_image=True,
                            number=number)
+
 
 @app.route('/lesson-5')
 def lesson5():
@@ -504,37 +507,36 @@ def lesson9():
     rm_tree()
     number = request.args.get('number')
     if (number is None) \
-            or (int(number) <= 0) :
+            or (int(number) <= 0):
         return render_template('lesson9.html', is_show_image=False)
     N = int(number)
     np.random.seed(100)
-    X = np.random.rand(N, 1)*5
-    y = 3*(X -2) * (X - 3)*(X-4) +  10*np.random.randn(N, 1)
+    X = np.random.rand(N, 1) * 5
+    y = 3 * (X - 2) * (X - 3) * (X - 4) + 10 * np.random.randn(N, 1)
 
     poly_features = PolynomialFeatures(degree=8, include_bias=True)
     X_poly = poly_features.fit_transform(X)
 
     N_test = 20
 
-    X_test = (np.random.rand(N_test,1) - 1/8) *10
-    y_test = 3*(X_test -2) * (X_test - 3)*(X_test-4) +  10*np.random.randn(N_test, 1)
+    X_test = (np.random.rand(N_test, 1) - 1 / 8) * 10
+    y_test = 3 * (X_test - 2) * (X_test - 3) * (X_test - 4) + 10 * np.random.randn(N_test, 1)
 
     X_poly_test = poly_features.fit_transform(X_test)
 
-    lin_reg = linear_model.LinearRegression(fit_intercept=False) # fit_intercept = False for calculating the bias
+    lin_reg = linear_model.LinearRegression(fit_intercept=False)  # fit_intercept = False for calculating the bias
 
     lin_reg.fit(X_poly, y)
 
-
     x_ve = np.linspace(-2, 10, 100)
-    y_ve = np.zeros(100, dtype = np.float64)
-    y_real = np.zeros(100, dtype = np.float64)
+    y_ve = np.zeros(100, dtype=np.float64)
+    y_real = np.zeros(100, dtype=np.float64)
     x_ve_poly = poly_features.fit_transform(np.array([x_ve]).T)
 
     y_ve = np.matmul(x_ve_poly, lin_reg.coef_.T)
 
     for i in range(0, 100):
-        y_real[i] = 3*(x_ve[i]-2) * (x_ve[i]-3)*(x_ve[i]-4)
+        y_real[i] = 3 * (x_ve[i] - 2) * (x_ve[i] - 3) * (x_ve[i] - 4)
 
     print(np.min(y_test), np.max(y) + 100)
 
@@ -544,16 +546,16 @@ def lesson9():
     y_train_predict = lin_reg.predict(X_poly)
     # print(y_train_predict)
     sai_so_binh_phuong_trung_binh = mean_squared_error(y, y_train_predict)
-    print('sai so binh phuong trung binh - tap training: %.6f' % (sai_so_binh_phuong_trung_binh/2))
+    print('sai so binh phuong trung binh - tap training: %.6f' % (sai_so_binh_phuong_trung_binh / 2))
 
     # Tinh sai so cua scikit-learn
     y_test_predict = lin_reg.predict(X_poly_test)
     # print(y_test_predict)
     sai_so_binh_phuong_trung_binh = mean_squared_error(y_test, y_test_predict)
-    print('sai so binh phuong trung binh - tap test: %.6f' % (sai_so_binh_phuong_trung_binh/2))
+    print('sai so binh phuong trung binh - tap test: %.6f' % (sai_so_binh_phuong_trung_binh / 2))
 
-    pyplot.plot(X,y, 'ro')
-    pyplot.plot(X_test,y_test, 's')
+    pyplot.plot(X, y, 'ro')
+    pyplot.plot(X_test, y_test, 's')
     pyplot.plot(x_ve, y_ve, 'b')
     pyplot.plot(x_ve, y_real, '--')
     pyplot.title('Hoi quy da thuc bac 16')
@@ -564,6 +566,7 @@ def lesson9():
                            is_show_image=True,
                            number=number)
 
+
 @app.route('/lesson-10')
 def lesson10():
     rm_tree()
@@ -572,59 +575,55 @@ def lesson10():
     x_2 = request.args.get('x_2')
 
     if (number is None) \
-            or (int(number) <= 0)  \
+            or (int(number) <= 0) \
             or (x_1 is None) \
-            or (x_2 is None) :
+            or (x_2 is None):
         return render_template('lesson10.html', is_show_image=False)
 
     x = np.linspace(-5, 5, 100)
-    y = x**2 + 10*np.sin(x)
+    y = x ** 2 + 10 * np.sin(x)
     pyplot.plot(x, y)
     x_1 = int(x_1)
     x_2 = int(x_2)
-    y_1 = x_1**2 + 10*np.sin(x_1)
+    y_1 = x_1 ** 2 + 10 * np.sin(x_1)
 
-    m = 2*x_1 + 10*np.cos(x_1)
+    m = 2 * x_1 + 10 * np.cos(x_1)
     dx = 1
-    dy = m*dx
-    L = np.sqrt(dx**2 + dy**2)
+    dy = m * dx
+    L = np.sqrt(dx ** 2 + dy ** 2)
     he_so = 5
-    dx = he_so*dx / L
-    dy = he_so*dy / L
+    dx = he_so * dx / L
+    dy = he_so * dy / L
 
-    pyplot.arrow(x_1 + 0.5 , y_1, dx, dy, head_width = 0.5)
+    pyplot.arrow(x_1 + 0.5, y_1, dx, dy, head_width=0.5)
 
-    pyplot.plot(x_1 + 0.5, y_1, 'ro', markersize = 20)
+    pyplot.plot(x_1 + 0.5, y_1, 'ro', markersize=20)
 
-    y_2 = x_2**2 + 10*np.sin(x_2)
+    y_2 = x_2 ** 2 + 10 * np.sin(x_2)
 
-    m = 2*x_2 + 10*np.cos(x_2)
+    m = 2 * x_2 + 10 * np.cos(x_2)
     dx = -1
-    dy = m*dx
-    L = np.sqrt(dx**2 + dy**2)
+    dy = m * dx
+    L = np.sqrt(dx ** 2 + dy ** 2)
     he_so = int(number)
-    dx = he_so*dx / L
-    dy = he_so*dy / L
+    dx = he_so * dx / L
+    dy = he_so * dy / L
 
-    pyplot.arrow(x_2, y_2 + 4, dx, dy, head_width = 0.5)
-    pyplot.plot(x_2, y_2 + 4, 'yo', markersize = 20)
+    pyplot.arrow(x_2, y_2 + 4, dx, dy, head_width=0.5)
+    pyplot.plot(x_2, y_2 + 4, 'yo', markersize=20)
 
     pyplot.fill_between(x, y, -10)
 
     pyplot.axis([-6, 6, -10, 40])
 
-
     pyplot.savefig(static_path + r'\lesson10.png')
     pyplot.clf()
     return render_template('lesson10.html',
                            is_show_image=True,
-                           x_1 = x_1,
-                           x_2 = x_2,
+                           x_1=x_1,
+                           x_2=x_2,
                            number=number)
 
 
 if __name__ == '__main__':
     app.run()
-
-
-
